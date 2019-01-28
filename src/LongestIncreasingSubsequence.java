@@ -70,28 +70,26 @@ public class LongestIncreasingSubsequence {
         int len = 0;
 
         for (int i = 1; i < numberCount; i++) {
-            if(numbers[lastElement[0]]>numbers[i]){
+            if (numbers[lastElement[0]] > numbers[i]) {
                 lastElement[0] = i;
-            }
-            else if(numbers[lastElement[len]]<numbers[i]){
+            } else if (numbers[lastElement[len]] < numbers[i]) {
                 len++;
                 lastElement[len] = i;
-                sequenceLinkedMap[lastElement[len]] = lastElement[len-1];
-            }
-            else{
+                sequenceLinkedMap[lastElement[len]] = lastElement[len - 1];
+            } else {
                 int position = ceilIndex(numbers, lastElement, 0, len, numbers[i]);
                 lastElement[position] = i;
-                sequenceLinkedMap[lastElement[position]] = lastElement[position-1];
+                sequenceLinkedMap[lastElement[position]] = lastElement[position - 1];
             }
         }
 
-        System.out.println("Length of LIS:" + (len+1));
+        System.out.println("Length of LIS:" + (len + 1));
         findSequence(sequenceLinkedMap, lastElement[len]);
     }
 
-    public void findSequence(int[] sequenceLinkedMap, int lastValueIndex){
+    public void findSequence(int[] sequenceLinkedMap, int lastValueIndex) {
         String solution = String.valueOf(numbers[lastValueIndex]);
-        while(sequenceLinkedMap[lastValueIndex]!=-1){
+        while (sequenceLinkedMap[lastValueIndex] != -1) {
             solution = numbers[sequenceLinkedMap[lastValueIndex]] + " " + solution;
             lastValueIndex = sequenceLinkedMap[lastValueIndex];
         }
@@ -103,7 +101,7 @@ public class LongestIncreasingSubsequence {
         int mid;
         while (left <= right) {
             mid = (right + left) / 2;
-            if (arr[lastElement[mid]] < key && arr[lastElement[mid+1]] >= key) {
+            if (arr[lastElement[mid]] < key && arr[lastElement[mid + 1]] >= key) {
                 return mid + 1;
             } else if (arr[lastElement[mid]] < key) {
                 left = mid + 1;
@@ -113,23 +111,4 @@ public class LongestIncreasingSubsequence {
         }
         return -1;
     }
-
-    private int ceilIndex(int input[], int T[], int end, int s){
-        int start = 0;
-        int middle;
-        int len = end;
-        while(start <= end){
-            middle = (start + end)/2;
-            if(middle < len && input[T[middle]] < s && s <= input[T[middle+1]]){
-                return middle+1;
-            }else if(input[T[middle]] < s){
-                start = middle+1;
-            }else{
-                end = middle-1;
-            }
-        }
-        return -1;
-    }
-
-
 }

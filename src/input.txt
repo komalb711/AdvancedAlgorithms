@@ -1,0 +1,18 @@
+# Sample Inputs #
+
+Bin Packing Input:
+6 10
+6 7 3 4 8 2
+
+Knapsack Input:
+
+
+LongestIncreasing Subsequence Input:
+
+
+Interval Scheduling Input:
+4
+10 12 10
+11 13 20
+14 15 30
+12 16 40

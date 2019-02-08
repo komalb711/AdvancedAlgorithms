@@ -25,7 +25,6 @@ public class Knapsack {
     private int capacity;
     private int weights[];
     private int cost[];
-//    private int dpArray[][];
 
     public static void main(String[] args) {
         Knapsack knapsack = new Knapsack();

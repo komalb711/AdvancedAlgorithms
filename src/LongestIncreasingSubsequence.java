@@ -1,5 +1,13 @@
 import java.util.Scanner;
 
+/**
+ * Longest Increasing Subsequence
+ * <p>
+ * Input Format:
+ * <Length of the sequence>
+ * <The actual sequence numbers separated by space>
+ */
+
 public class LongestIncreasingSubsequence {
 
     private int numberCount;

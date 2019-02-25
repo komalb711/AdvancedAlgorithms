@@ -43,12 +43,9 @@ public class SequenceAlignment {
         for (int i = 1; i < string1.length() + 1; i++) {
             dpArray[i][0] = gapPenalty * i;
         }
-//        printDPArray(dpArray);
         for (int i = 1; i < string2.length() + 1; i++) {
             dpArray[0][i] = gapPenalty * i;
         }
-//        printDPArray(dpArray);
-
         for (int i = 1; i < string1.length() + 1; i++) {
             for (int j = 1; j < string2.length() + 1; j++) {
                 int mismatchValue;
@@ -68,17 +65,17 @@ public class SequenceAlignment {
         System.out.println("Minimum Cost required to align the two strings:" + dpArray[string1.length()][string2.length()]);
         printDPArray(dpArray);
 
-        retraceSolution(dpArray, string1, string2);
+        retraceSolution(dpArray);
     }
 
-    public void retraceSolution(int[][] dpArray, String str1, String str2) {
+    public void retraceSolution(int[][] dpArray) {
         String sol1 = "";
         String sol2 = "";
         int i = dpArray.length - 1;
         int j = dpArray[0].length - 1;
         while (i > 0 && j > 0) {
 
-            int mismatchValue = mismatchPenalty;
+            int mismatchValue;
             if (isVowel(string1.charAt(i - 1)) && isVowel(string2.charAt(j - 1)) ||
                     isConsonant(string1.charAt(i - 1)) && isConsonant(string2.charAt(j - 1))) {
                 mismatchValue = mismatchPenalty;
@@ -86,34 +83,34 @@ public class SequenceAlignment {
                 mismatchValue = mismatchPenaltyCV;
             }
 
-            if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
-                sol1 = str1.charAt(i - 1) + sol1;
-                sol2 = str2.charAt(j - 1) + sol2;
+            if (string1.charAt(i - 1) == string2.charAt(j - 1)) {
+                sol1 = string1.charAt(i - 1) + sol1;
+                sol2 = string2.charAt(j - 1) + sol2;
                 i--;
                 j--;
             } else if (mismatchValue + dpArray[i - 1][j - 1] < gapPenalty + dpArray[i][j - 1] && mismatchValue + dpArray[i - 1][j - 1]  < gapPenalty + dpArray[i - 1][j]) {
-                sol1 = str1.charAt(i - 1) + sol1;
-                sol2 = str2.charAt(j - 1) + sol2;
+                sol1 = string1.charAt(i - 1) + sol1;
+                sol2 = string2.charAt(j - 1) + sol2;
                 i--;
                 j--;
             } else if (gapPenalty + dpArray[i][j - 1] < gapPenalty + dpArray[i - 1][j]) {
                 sol1 = "_"+ sol1;
-                sol2 = str2.charAt(j - 1) + sol2;
+                sol2 = string2.charAt(j - 1) + sol2;
                 j--;
             } else {
                 sol2 =  "_"+ sol2;
-                sol1 = str1.charAt(i - 1) + sol1;
+                sol1 = string1.charAt(i - 1) + sol1;
                 i--;
             }
         }
         while(i>=0){
-            str1 = str1.charAt(i--) + str1;
+            string1 = string1.charAt(i--) + string1;
         }
 
         while(j>=0){
-            str2 = str2.charAt(j--) + str2;
+            string2 = string2.charAt(j--) + string2;
         }
-
+        System.out.println(" Alignment of the two string is as follows:");
         System.out.println("String1:" + sol1);
         System.out.println("String2:" + sol2);
     }

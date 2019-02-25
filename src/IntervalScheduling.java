@@ -1,5 +1,22 @@
 import java.util.*;
 
+/**
+ * Interval Scheduling
+ * <p>
+ * Input Format:
+ * <No. of intervals>
+ * <Interval 1 start time> <Interval 1 end time> <Interval 1 value>
+ * <Interval 2 start time> <Interval 2 end time> <Interval 2 value>
+ * ...
+ * <Interval n start time> <Interval n end time> <Interval n value>
+ * <p>
+ * <p>
+ * Variations of the Interval Scheduling:-
+ * Basic Interval Scheduling
+ * Total Interval Scheduling
+ * Weighted Interval Scheduling
+ */
+
 public class IntervalScheduling {
 
     private List<Job> jobs;
@@ -7,8 +24,8 @@ public class IntervalScheduling {
     public static void main(String[] args) {
         IntervalScheduling obj = new IntervalScheduling();
         obj.getUserInputs();
-//        obj.basicIntervalScheduling();
-//        obj.totalIntervalScheduling();
+        obj.basicIntervalScheduling();
+        obj.totalIntervalScheduling();
         obj.weightedIntervalScheduling();
     }
 
@@ -39,7 +56,7 @@ public class IntervalScheduling {
             }
         }
 
-        System.out.println("Maximum non overlapping jobs that can be scheduled are:: " + selectedJobs.size());
+        System.out.println("\nMaximum non overlapping jobs that can be scheduled are:: " + selectedJobs.size());
         for (Job job : selectedJobs) {
             System.out.println("Start:" + job.startTime + ", End:" + job.endTime);
         }
@@ -80,7 +97,7 @@ public class IntervalScheduling {
                 }
             }
         }
-        System.out.println("No of processors needed to schedule all the jobs is: " + noOfProcessesNeeded);
+        System.out.println("\nNo of processors needed to schedule all the jobs is: " + noOfProcessesNeeded);
 
         for (int i = 0; i < jobs.size(); i++) {
             System.out.println("Start:" + jobs.get(i).startTime + ", End:" + jobs.get(i).endTime + "=> Process:" + (processAllocation[i] + 1));
@@ -111,7 +128,7 @@ public class IntervalScheduling {
             dpArray[i] = max(jobs.get(i-1).costProfit + (compatibility[i-1]>=0?jobs.get(compatibility[i-1]).costProfit:0), dpArray[i-1]);
         }
 
-        System.out.println("Maximum benefit/profit we can get from scheduling the jobs is: " + dpArray[jobs.size()]);
+        System.out.println("\nMaximum benefit/profit we can get from scheduling the jobs is: " + dpArray[jobs.size()]);
         int i = jobs.size()-1;
         while(i>=0){
             System.out.println("Start:" + jobs.get(i).startTime + ", End:" + jobs.get(i).endTime + ", Cost:" +jobs.get(i).costProfit);

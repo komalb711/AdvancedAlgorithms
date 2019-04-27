@@ -12,7 +12,7 @@ import java.util.*;
  * <p>
  * <p>
  * Variations of the Interval Scheduling:-
- * Basic Interval Scheduling
+     * Basic Interval Scheduling
  * Total Interval Scheduling
  * Weighted Interval Scheduling
  */

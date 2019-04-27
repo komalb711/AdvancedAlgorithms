@@ -19,9 +19,58 @@ Interval Scheduling Input:
 
 
 Sequence Alignment Input:
-
 name
 mean
 2
 1
 3
+
+
+String Matching:
+abcxabcdabcdabcy
+abcdabcy
+
+
+WordBreak:
+13
+mobile
+samsung
+sam
+sung
+ma
+mango
+icecream
+and
+go
+i
+like
+ice
+cream
+likeicecream
+
+
+Ford Fulkerson:
+
+4
+5
+0 1 20
+0 2 10
+1 2 30
+1 3 10
+2 3 20
+
+
+Rain Water Trapping:
+12
+0 1 0 2 1 0 1 3 2 1 2 1
+
+
+Longest Valid Parenthesis:
+)((()())))
+
+
+Coin Change Problem:
+4
+1 5 10 20
+35
+

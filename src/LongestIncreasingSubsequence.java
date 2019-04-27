@@ -32,10 +32,15 @@ public class LongestIncreasingSubsequence {
     public void simpleLIS() {
         System.out.println("\nLIS algo - O(n^2) complexity");
         int dpArray[] = new int[numberCount];
+
+        // initialize the complet dp array to 1, as thats the least
+        // size of LIS considering each element itself.
         for (int i = 0; i < numberCount; i++) {
             dpArray[i] = 1;
         }
-        for (int i = 0; i < numberCount; i++) {
+
+        // filling the dp array
+        for (int i = 1; i < numberCount; i++) {
             for (int j = 0; j < numberCount; j++) {
                 if (numbers[j] < numbers[i] && dpArray[j] >= dpArray[i]) {
                     dpArray[i] = dpArray[j] + 1;

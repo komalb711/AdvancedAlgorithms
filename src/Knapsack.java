@@ -50,9 +50,11 @@ public class Knapsack {
     public void divisibleKnapsack() {
         System.out.println("\n:Divisible Knapsack:");
         double costPerUnit[] = new double[weightCount];
+        //find cost per unit weight
         for (int i = 0; i < weightCount; i++) {
             costPerUnit[i] = ((double) cost[i]) / weights[i];
         }
+        //Sort the weights
         for (int i = 0; i < weightCount; i++) {
             for (int j = i + 1; j < weightCount; j++) {
                 if (costPerUnit[i] < costPerUnit[j]) {
@@ -72,18 +74,26 @@ public class Knapsack {
         int remainingCapacity = capacity;
         double totalCost = 0;
         int counter = 0;
+
+        // greedy approach - sort the weights based on the cost per weight value.
+        // We keep on adding the weights in totality or partially till the knapsack
+        // does not become full completely
         while (remainingCapacity > 0) {
+            //check if all weights are no exhausted
             if (counter >= weightCount)
                 break;
+            // check if can add the weight completely in the knapsack,
+            // if yes then update the cost and capacity accordingly
             if (remainingCapacity >= weights[counter]) {
                 remainingCapacity -= weights[counter];
                 totalCost += cost[counter++];
-            } else {
+            }
+            // if we cannot add the weight completely then add the weight according to
+            // remaining capacity and also update the cosr.
+            else {
                 totalCost += costPerUnit[counter++] * remainingCapacity;
                 remainingCapacity = 0;
             }
-
-            System.out.println("Cost:" + totalCost);
         }
         System.out.println("Maximum Cost:" + totalCost);
     }
@@ -92,10 +102,18 @@ public class Knapsack {
         System.out.println("\n:Indivisible Knapsack:");
         int dpArray[][] = new int[weightCount + 1][capacity + 1];
 
+
         for (int i = 1; i < weightCount + 1; i++) {
             for (int j = 1; j < capacity + 1; j++) {
+                // check if the weight can be added to the knapsack
                 if (weights[i - 1] <= j) {
-                    dpArray[i][j] = max(dpArray[i - 1][j - weights[i - 1]] + cost[i - 1], dpArray[i - 1][j]);
+                    //the maximum value we cana get from the knapsack is the maximum
+                    // of the two possibilities - first is if we do not consider the
+                    // current weight or second is of we add the current weight and
+                    // fill the remaining knapsack with weight -
+                    // (current capacity - current current)
+                    dpArray[i][j] = max(dpArray[i - 1][j - weights[i - 1]]
+                            + cost[i - 1], dpArray[i - 1][j]);
                 }
             }
         }
@@ -106,6 +124,7 @@ public class Knapsack {
         System.out.println("\n:Unbounded Knapsack:");
         int dpArray[] = new int[capacity + 1];
 
+        //
         for (int i = 0; i < capacity + 1; i++) {
             for (int j = 0; j < weightCount; j++) {
                 if (weights[j] <= i) {

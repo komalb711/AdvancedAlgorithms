@@ -33,7 +33,7 @@ public class LongestIncreasingSubsequence {
         System.out.println("\nLIS algo - O(n^2) complexity");
         int dpArray[] = new int[numberCount];
 
-        // initialize the complet dp array to 1, as thats the least
+        // initialize the complete dp array to 1, as thats the least
         // size of LIS considering each element itself.
         for (int i = 0; i < numberCount; i++) {
             dpArray[i] = 1;
@@ -90,7 +90,7 @@ public class LongestIncreasingSubsequence {
                 lastElement[len] = i;
                 sequenceLinkedMap[lastElement[len]] = lastElement[len - 1];
             } else {
-                int position = ceilIndex(numbers, lastElement, 0, len, numbers[i]);
+                int position = modifiedBinarySearch(numbers, lastElement, 0, len, numbers[i]);
                 lastElement[position] = i;
                 sequenceLinkedMap[lastElement[position]] = lastElement[position - 1];
             }
@@ -110,16 +110,16 @@ public class LongestIncreasingSubsequence {
 
     }
 
-    public int ceilIndex(int arr[], int lastElement[], int left, int right, int key) {
+    public int modifiedBinarySearch(int arr[], int lastElement[], int left, int right, int key) {
         int mid;
         while (left <= right) {
             mid = (right + left) / 2;
             if (arr[lastElement[mid]] < key && arr[lastElement[mid + 1]] >= key) {
                 return mid + 1;
             } else if (arr[lastElement[mid]] < key) {
-                left = mid + 1;
+                left = mid - 1;
             } else {
-                right = mid - 1;
+                right = mid + 1;
             }
         }
         return -1;

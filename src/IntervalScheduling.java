@@ -63,40 +63,39 @@ public class IntervalScheduling {
     }
 
     public void totalIntervalScheduling() {
-        Collections.sort(jobs, new SortByStartTime());
 
         int noOfProcessesNeeded = 0;
         int[] processAllocation = new int[jobs.size()];
-        int[] processorEndTime = new int[jobs.size()];
+        PriorityQueue<Processor> queue= new PriorityQueue<>
+                (new SortProcessorByEndTime());
+
+        Collections.sort(jobs, new SortByStartTime());
 
         for (int i = 0; i < jobs.size(); i++) {
-            processorEndTime[i] = -1;
             processAllocation[i] = -1;
         }
 
         for (int i = 0; i < jobs.size(); i++) {
             if (noOfProcessesNeeded == 0) {
-                processAllocation[i] = noOfProcessesNeeded;
-                processorEndTime[noOfProcessesNeeded] = jobs.get(i).endTime;
+                Processor processor = new Processor(0,jobs.get(i).endTime);
+                queue.add(processor);
+                processAllocation[i] = 0;
                 noOfProcessesNeeded++;
             } else {
-                int currentProcessor = -1;
-                for (int j = 0; j < noOfProcessesNeeded; j++) {
-                    if (processorEndTime[j] <= jobs.get(i).startTime) {
-                        currentProcessor = j;
-                        break;
-                    }
+                Processor processor = queue.peek();
+
+                if(processor.endTime<=jobs.get(i).startTime){
+                    processor = queue.poll();
                 }
-                if (currentProcessor == -1) {
-                    processAllocation[i] = noOfProcessesNeeded;
-                    processorEndTime[noOfProcessesNeeded] = jobs.get(i).endTime;
+                else{
+                    processor = new Processor(queue.size(),jobs.get(i).endTime);
+                    queue.add(processor);
                     noOfProcessesNeeded++;
-                } else {
-                    processAllocation[i] = currentProcessor;
-                    processorEndTime[i] = jobs.get(i).endTime;
                 }
+                processAllocation[i] = processor.id;
             }
         }
+
         System.out.println("\nNo of processors needed to schedule all the jobs is: " + noOfProcessesNeeded);
 
         for (int i = 0; i < jobs.size(); i++) {
@@ -114,18 +113,18 @@ public class IntervalScheduling {
         }
 
         for (int i = 1; i < jobs.size(); i++) {
-            int j;
-            for (j = 0; j<i; j++) {
-                if (jobs.get(i).startTime >= jobs.get(j).endTime) {
-                    compatibility[i] = j;
-                    break;
-                }
-            }
+            compatibility[i] = findCompatibleJob(jobs,
+                    0, jobs.size(), jobs.get(i).startTime);
         }
 
         int[] dpArray = new int[jobs.size()+1];
         for (int i = 1; i < jobs.size()+1; i++){
-            dpArray[i] = max(jobs.get(i-1).costProfit + (compatibility[i-1]>=0?jobs.get(compatibility[i-1]).costProfit:0), dpArray[i-1]);
+            dpArray[i] = max(
+                    jobs.get(i-1).costProfit +
+                            (compatibility[i-1]>=0 ?
+                                    jobs.get(compatibility[i-1]).costProfit :
+                                    0 )
+                    , dpArray[i-1]);
         }
 
         System.out.println("\nMaximum benefit/profit we can get from scheduling the jobs is: " + dpArray[jobs.size()]);
@@ -167,5 +166,37 @@ public class IntervalScheduling {
         public int compare(Job o1, Job o2) {
             return o1.endTime - o2.endTime;
         }
+    }
+
+    class Processor{
+        int id;
+        int endTime;
+
+        public Processor(int id, int endTime){
+            this.id = id;
+            this.endTime =endTime;
+        }
+    }
+
+    class SortProcessorByEndTime implements Comparator<Processor> {
+        @Override
+        public int compare(Processor o1, Processor o2) {
+            return o1.endTime - o2.endTime;
+        }
+    }
+
+    public int findCompatibleJob(List<Job> arr, int left, int right, int key) {
+        int mid;
+        while (left <= right) {
+            mid = (right + left) / 2;
+            if (arr.get(mid).endTime <= key && arr.get(mid+1).endTime > key) {
+                return mid;
+            } else if (arr.get(mid).endTime < key) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return -1;
     }
 }

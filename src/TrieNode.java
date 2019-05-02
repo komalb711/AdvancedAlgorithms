@@ -12,6 +12,5 @@ public class TrieNode {
         map = new TrieNode[26];
         endOfWord = false;
     }
-
 }
 

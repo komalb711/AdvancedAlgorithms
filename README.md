@@ -15,3 +15,12 @@
   - Total Interval Scheduling
   - Weighted Interval Scheduling
 ## Sequence Alignment
+## Trie Data Structure
+## Word Break
+## Knuth Morris Pratt Algorithm
+## Ford Fulkerson
+## Coin Change
+## Longest Valid Parenthesis
+## Trapping Rain Water
+## Word Break
+## Common Child

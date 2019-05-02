@@ -92,6 +92,10 @@ public class StringMatching {
                 }
             }
         }
+
+        for(i=0; i<pattern.length();i++){
+            System.out.print(prefixArray[i] + " ");
+        }
     }
 
     public boolean knuthMorrisPrattAlgorithm() {
